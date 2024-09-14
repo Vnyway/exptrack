@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import CubesCanvas from "@/components/CubesCanvas";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,7 +28,12 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
+        <main className="flex h-[100vh] w-full">
+          {children}
+          <section className="w-[40%] h-full bg-[#858383]">
+            <CubesCanvas />
+          </section>
+        </main>
       </body>
     </html>
   );

@@ -18,7 +18,7 @@ const CustomInput = ({
       variants={fadeIn({
         direction: "right",
         type: "spring",
-        delay: index ? 0.2 + index * 0.2 : 0.2,
+        delay: index ? 0.4 + index * 0.2 : 0.4,
         duration: 0.8,
       })}
       htmlFor={name}

@@ -6,6 +6,11 @@ export interface FormProps {
   password: string;
 }
 
+export interface LoginFormProps {
+  email: string;
+  password: string;
+}
+
 export interface CustomInputProps {
   name: string;
   type: string;
@@ -25,7 +30,7 @@ export interface InputErrorProps {
 
 export interface SlideInProps {
   direction: "left" | "right" | "up" | "down";
-  type: "spring" | "tween"; // You can add more transition types if needed
-  delay: number; // Delay before the animation starts (in seconds)
-  duration: number; // Duration of the animation (in seconds)
+  type: "spring" | "tween";
+  delay: number;
+  duration: number;
 }
