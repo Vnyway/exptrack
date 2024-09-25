@@ -1,4 +1,5 @@
-import { UseFormRegister, FieldError } from "react-hook-form";
+import React from "react";
+import { UseFormRegister, FieldErrors } from "react-hook-form";
 
 export interface FormProps {
   email: string;
@@ -17,15 +18,14 @@ export interface CustomInputProps {
   index?: number;
   placeholder: string;
   required?: boolean;
-  requiredMessage?: string;
-  pattern?: string;
-  patternMessage?: string;
+  requiredMessage: string;
+  reqPattern?: boolean;
   register: UseFormRegister<any>;
-  errors: FieldError | undefined;
+  errors: FieldErrors<any>;
 }
 
 export interface InputErrorProps {
-  message: string | undefined;
+  message: any | undefined;
 }
 
 export interface SlideInProps {
@@ -33,4 +33,12 @@ export interface SlideInProps {
   type: "spring" | "tween";
   delay: number;
   duration: number;
+}
+
+export interface NavbarLinkProps {
+  id: number;
+  reference: string;
+  image: (selected: boolean) => React.ReactNode;
+  title: string;
+  selected: boolean;
 }
