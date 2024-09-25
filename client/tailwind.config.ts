@@ -12,6 +12,9 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         primary: "#4FD1C5",
+        secondary: "#A0AEC0",
+        title: "#2D3748",
+        customGreen: "#48BB78",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { useSpring, animated } from "@react-spring/three";
 import CanvasLoader from "./CanvasLoader";
 

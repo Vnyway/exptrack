@@ -48,3 +48,14 @@ export interface MotionPathProps {
   selected: boolean;
   transitionDuration?: number;
 }
+
+export interface CardProps {
+  title: string;
+  amount: number;
+  percentage: number;
+  image: React.ReactNode;
+}
+
+export interface BreadCrumbsProps {
+  title: string;
+}
