@@ -42,3 +42,9 @@ export interface NavbarLinkProps {
   title: string;
   selected: boolean;
 }
+
+export interface MotionPathProps {
+  d: string;
+  selected: boolean;
+  transitionDuration?: number;
+}
