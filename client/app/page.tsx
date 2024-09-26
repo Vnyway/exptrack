@@ -2,6 +2,8 @@ import Card from "@/components/Card";
 import React from "react";
 import { cards } from "@/constants";
 import BreadCrumbs from "@/components/BreadCrumbs";
+import { BalanceChart } from "@/components/BalanceChart";
+import ExpensesChart from "@/components/ExpensesChart";
 
 const page = () => {
   return (
@@ -18,6 +20,11 @@ const page = () => {
             isIncreasingGood={card.isIncreasingGood}
           />
         ))}
+      </section>
+      <section className="flex gap-[20px]">
+        <BalanceChart />
+        <ExpensesChart />
+        <ExpensesChart />
       </section>
     </>
   );

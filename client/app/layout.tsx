@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { GeistSans } from "geist/font/sans";
 
 export const metadata: Metadata = {
   title: "ExpTrack",
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${GeistSans.className} antialiased dark:bg-gray-950`}>
       <body>
         <main className="flex w-full">
           <Navbar />
