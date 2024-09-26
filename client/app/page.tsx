@@ -15,6 +15,7 @@ const page = () => {
             amount={card.amount}
             image={card.image}
             percentage={card.percentage}
+            isIncreasingGood={card.isIncreasingGood}
           />
         ))}
       </section>

@@ -11,8 +11,8 @@ const Navbar = () => {
   if (pathname === "/auth/login" || pathname === "/auth/registration")
     return null;
   return (
-    <nav className="w-[265px] h-[100vh] relative overflow-hidden">
-      <div className="fixed top-0 h-full w-[265px] flex justify-center py-[50px]">
+    <nav className="w-[265px] shrink-0 h-[100vh] relative overflow-hidden">
+      <div className="fixed top-0 h-[100vh] w-[265px] flex justify-center py-[50px]">
         <div className="flex flex-col gap-[30px]">
           <Link href="/" className="flex items-center gap-[7px] pl-[14px]">
             <img src="./logo.svg" alt="logo" />

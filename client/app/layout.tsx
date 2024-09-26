@@ -13,7 +13,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <body>
         <main className="flex w-full">
           <Navbar />
-          <section className="w-full px-[40px] py-[38px]">{children}</section>
+          <section className="w-full px-[20px] py-[38px]">{children}</section>
         </main>
       </body>
     </html>

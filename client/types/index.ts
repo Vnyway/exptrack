@@ -54,6 +54,7 @@ export interface CardProps {
   amount: number;
   percentage: number;
   image: React.ReactNode;
+  isIncreasingGood: boolean;
 }
 
 export interface BreadCrumbsProps {

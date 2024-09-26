@@ -15,6 +15,7 @@ const config: Config = {
         secondary: "#A0AEC0",
         title: "#2D3748",
         customGreen: "#48BB78",
+        customRed: "#E53E3E",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],

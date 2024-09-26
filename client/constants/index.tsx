@@ -211,6 +211,7 @@ const cards = [
         />
       </svg>
     ),
+    isIncreasingGood: true,
   },
   {
     id: 2,
@@ -238,6 +239,7 @@ const cards = [
         />
       </svg>
     ),
+    isIncreasingGood: false,
   },
   {
     id: 3,
@@ -254,11 +256,12 @@ const cards = [
         <path
           d="M9.99999 3.33337V5.00004M9.99999 5.00004C11.6667 5.00004 12.6389 5.5556 12.9167 6.66671M9.99999 5.00004C7.49999 5.00004 7.08333 6.63048 7.08333 7.50004C7.08333 10.9503 12.9167 9.13749 12.9167 12.5C12.9167 13.3696 12.5 15 9.99999 15M9.99999 15V16.6667M9.99999 15C8.33333 15 7.36111 14.4445 7.08333 13.3334"
           stroke="#FFFFFF"
-          stroke-width="2"
-          stroke-linecap="square"
+          strokeWidth="2"
+          strokeLinecap="square"
         />
       </svg>
     ),
+    isIncreasingGood: true,
   },
 ];
 
