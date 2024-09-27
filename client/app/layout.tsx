@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { GeistSans } from "geist/font/sans";
+import { UserContextProvider } from "@/contexts/UserContextProvider";
 
 export const metadata: Metadata = {
   title: "ExpTrack",
@@ -15,8 +16,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       className={`${GeistSans.className} antialiased dark:bg-gray-950`}>
       <body>
         <main className="flex w-full">
-          <Navbar />
-          <section className="w-full px-[20px] py-[38px]">{children}</section>
+          <UserContextProvider>
+            <Navbar />
+            <section className="w-full px-[20px] py-[38px]">{children}</section>
+          </UserContextProvider>
         </main>
       </body>
     </html>
