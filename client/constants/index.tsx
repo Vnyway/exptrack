@@ -1,5 +1,33 @@
 import { motion } from "framer-motion";
 import { MotionPath } from "@/components";
+import {
+  businessIncome,
+  charityOrDonations,
+  crowdfundingOrDonations,
+  debtPayments,
+  education,
+  entertainmantAndRecreation,
+  food,
+  freelanceOrContractIncome,
+  giftsOrInheritance,
+  govermentBenefits,
+  grantsOrScholarships,
+  healthcare,
+  housing,
+  insurance,
+  investmentIncome,
+  miscellaneous,
+  pensionOrRetirement,
+  personalCare,
+  refundsOrReimbursements,
+  rentalIncome,
+  royaltiesOrLicesingIncome,
+  salaryOrWages,
+  savingsAndInvestments,
+  taxes,
+  transportation,
+  windfalls,
+} from "@/public";
 
 const registrationInputs = [
   {
@@ -265,4 +293,148 @@ const cards = [
   },
 ];
 
-export { registrationInputs, loginInputs, navLinks, profileLinks, cards };
+const categoriesExpenses = [
+  {
+    id: 1,
+    title: "Housing",
+    image: housing,
+  },
+  {
+    id: 2,
+    title: "Transportation",
+    image: transportation,
+  },
+  {
+    id: 3,
+    title: "Food",
+    image: food,
+  },
+  {
+    id: 4,
+    title: "Healthcare",
+    image: healthcare,
+  },
+  {
+    id: 5,
+    title: "Debt Payments",
+    image: debtPayments,
+  },
+  {
+    id: 6,
+    title: "Entertainment & Investments",
+    image: entertainmantAndRecreation,
+  },
+  {
+    id: 7,
+    title: "Savings & Investments",
+    image: savingsAndInvestments,
+  },
+  {
+    id: 8,
+    title: "Personal Care",
+    image: personalCare,
+  },
+  {
+    id: 9,
+    title: "Education",
+    image: education,
+  },
+  {
+    id: 10,
+    title: "Insurance",
+    image: insurance,
+  },
+  {
+    id: 11,
+    title: "Taxes",
+    image: taxes,
+  },
+  {
+    id: 12,
+    title: "Charity/Donations",
+    image: charityOrDonations,
+  },
+  {
+    id: 13,
+    title: "Miscellaneous",
+    image: miscellaneous,
+  },
+];
+
+const categoriesIncomes = [
+  {
+    id: 1,
+    title: "Salary/Wages",
+    image: salaryOrWages,
+  },
+  {
+    id: 2,
+    title: "Freelance/Contract Income",
+    image: freelanceOrContractIncome,
+  },
+  {
+    id: 3,
+    title: "Business Income",
+    image: businessIncome,
+  },
+  {
+    id: 4,
+    title: "Investment Income",
+    image: investmentIncome,
+  },
+  {
+    id: 5,
+    title: "Rental Income",
+    image: rentalIncome,
+  },
+  {
+    id: 6,
+    title: "Government Benefits",
+    image: govermentBenefits,
+  },
+  {
+    id: 7,
+    title: "Pension/Retirement",
+    image: pensionOrRetirement,
+  },
+  {
+    id: 8,
+    title: "Grants/Scholarships",
+    image: grantsOrScholarships,
+  },
+  {
+    id: 9,
+    title: "Gifts/Inheritance",
+    image: giftsOrInheritance,
+  },
+  {
+    id: 10,
+    title: "Refunds/Reimbursements",
+    image: refundsOrReimbursements,
+  },
+  {
+    id: 11,
+    title: "Royalties/Licensing Income",
+    image: royaltiesOrLicesingIncome,
+  },
+  {
+    id: 12,
+    title: "Windfalls",
+    image: windfalls,
+  },
+  {
+    id: 13,
+    title: "Crowdfunding/Donations",
+    image: crowdfundingOrDonations,
+  },
+];
+
+export {
+  registrationInputs,
+  loginInputs,
+  navLinks,
+  profileLinks,
+  cards,
+  categoriesExpenses,
+  categoriesIncomes,
+};
