@@ -429,6 +429,97 @@ const categoriesIncomes = [
   },
 ];
 
+const user = {
+  id: 1,
+  name: "Jackie Chan",
+  accounts: [
+    { id: 1, title: "Salary" },
+    { id: 2, title: "Spendings" },
+  ],
+  transactions: [
+    {
+      id: 1,
+      accountId: 1,
+      incomes: true,
+      category: 12, // Category for "Windfalls"
+      amount: 20000,
+      date: new Date(2023, 0, 12),
+    },
+    {
+      id: 2,
+      accountId: 1,
+      incomes: true,
+      category: 1, // Salary/Wages
+      amount: 120000,
+      date: new Date(2023, 2, 14),
+    },
+    {
+      id: 3,
+      accountId: 2,
+      incomes: false,
+      category: 3, // Food
+      amount: 5000,
+      date: new Date(2023, 4, 23),
+    },
+    {
+      id: 4,
+      accountId: 1,
+      incomes: true,
+      category: 4, // Investment Income
+      amount: 50000,
+      date: new Date(2023, 6, 9),
+    },
+    {
+      id: 5,
+      accountId: 2,
+      incomes: false,
+      category: 7, // Savings & Investments
+      amount: 30000,
+      date: new Date(2023, 7, 25),
+    },
+    {
+      id: 6,
+      accountId: 2,
+      incomes: false,
+      category: 8, // Personal Care
+      amount: 1200,
+      date: new Date(2024, 1, 12),
+    },
+    {
+      id: 7,
+      accountId: 1,
+      incomes: true,
+      category: 2, // Freelance/Contract Income
+      amount: 15000,
+      date: new Date(2024, 3, 30),
+    },
+    {
+      id: 8,
+      accountId: 2,
+      incomes: false,
+      category: 10, // Insurance
+      amount: 10000,
+      date: new Date(2024, 5, 18),
+    },
+    {
+      id: 9,
+      accountId: 2,
+      incomes: false,
+      category: 13, // Miscellaneous
+      amount: 2200,
+      date: new Date(2024, 7, 5),
+    },
+    {
+      id: 10,
+      accountId: 1,
+      incomes: true,
+      category: 9, // Gifts/Inheritance
+      amount: 50000,
+      date: new Date(2024, 8, 15),
+    },
+  ],
+};
+
 export {
   registrationInputs,
   loginInputs,
@@ -437,4 +528,5 @@ export {
   cards,
   categoriesExpenses,
   categoriesIncomes,
+  user,
 };
