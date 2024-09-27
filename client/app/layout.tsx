@@ -18,7 +18,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <main className="flex w-full">
           <UserContextProvider>
             <Navbar />
-            <section className="w-full px-[20px] py-[38px]">{children}</section>
+            <section className="w-full px-[20px] py-[38px] flex flex-col gap-[20px]">
+              {children}
+            </section>
           </UserContextProvider>
         </main>
       </body>

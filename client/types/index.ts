@@ -60,3 +60,23 @@ export interface CardProps {
 export interface BreadCrumbsProps {
   title: string;
 }
+
+interface BalanceChartDataProps {
+  date: string;
+  balance: number;
+}
+
+export interface BalanceChartProps {
+  chartData: BalanceChartDataProps[];
+}
+
+interface CircleChartDataProps {
+  date: string;
+  balance: number;
+}
+
+export interface CircleChartProps {
+  chartData: CircleChartDataProps[];
+  title: string;
+  time: string;
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import { AreaChart } from "@/components/AreaChart";
+import { BalanceChartProps } from "@/types";
 
 const chartdata = [
   {
@@ -53,9 +54,9 @@ const chartdata = [
   },
 ];
 
-export const BalanceChart = () => (
+export const BalanceChart = ({ chartData }: BalanceChartProps) => (
   <AreaChart
-    className="h-80 w-[60%]"
+    className="h-80 w-[60%] shadow-md rounded-[15px] p-[20px]"
     data={chartdata}
     index="date"
     colors={["primary"]}
