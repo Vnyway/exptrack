@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useState, ReactNode } from "react";
-import { user as initialUser } from "@/constants"; // Assuming the user constant is imported
+import { user as initialUser } from "@/constants";
 
 interface UserProps {
   id: number;
