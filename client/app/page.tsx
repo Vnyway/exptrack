@@ -10,64 +10,70 @@ import { UserContext } from "@/contexts/UserContextProvider";
 
 const page = () => {
   const { userData } = useContext<any>(UserContext);
-  const transactions = userData.transactions;
-  const incomes = transactions
-    .filter((transaction: any) => transaction.incomes === true)
-    .map((transaction: any) => {
-      const categoryObj = categoriesIncomes.find(
-        (cat) => cat.id === transaction.category
-      );
-      const categoryTitle = categoryObj ? categoryObj.title : "Unknown";
+  let transactions;
+  let incomes;
+  let expenses;
+  console.log(userData);
+  if (userData) {
+    transactions = userData.transactions;
+    incomes = transactions
+      .filter((transaction: any) => transaction.incomes === true)
+      .map((transaction: any) => {
+        const categoryObj = categoriesIncomes.find(
+          (cat) => cat.id === transaction.category
+        );
+        const categoryTitle = categoryObj ? categoryObj.title : "Unknown";
 
-      return { category: categoryTitle, amount: transaction.amount };
-    })
-    .reduce((acc: any, transaction: any) => {
-      const existingCategory = acc.find(
-        (item: any) => item.category === transaction.category
-      );
+        return { category: categoryTitle, amount: transaction.amount };
+      })
+      .reduce((acc: any, transaction: any) => {
+        const existingCategory = acc.find(
+          (item: any) => item.category === transaction.category
+        );
 
-      if (existingCategory) {
-        existingCategory.amount += transaction.amount;
-      } else {
-        acc.push({
-          category: transaction.category,
-          amount: transaction.amount,
-        });
-      }
+        if (existingCategory) {
+          existingCategory.amount += transaction.amount;
+        } else {
+          acc.push({
+            category: transaction.category,
+            amount: transaction.amount,
+          });
+        }
 
-      return acc;
-    }, []);
+        return acc;
+      }, []);
 
-  const expenses = transactions
-    .filter((transaction: any) => transaction.incomes === false)
-    .map((transaction: any) => {
-      const categoryObj = categoriesExpenses.find(
-        (cat) => cat.id === transaction.category
-      );
-      const categoryTitle = categoryObj ? categoryObj.title : "Unknown";
+    expenses = transactions
+      .filter((transaction: any) => transaction.incomes === false)
+      .map((transaction: any) => {
+        const categoryObj = categoriesExpenses.find(
+          (cat) => cat.id === transaction.category
+        );
+        const categoryTitle = categoryObj ? categoryObj.title : "Unknown";
 
-      return { category: categoryTitle, amount: transaction.amount };
-    })
-    .reduce((acc: any, transaction: any) => {
-      const existingCategory = acc.find(
-        (item: any) => item.category === transaction.category
-      );
+        return { category: categoryTitle, amount: transaction.amount };
+      })
+      .reduce((acc: any, transaction: any) => {
+        const existingCategory = acc.find(
+          (item: any) => item.category === transaction.category
+        );
 
-      if (existingCategory) {
-        existingCategory.amount += transaction.amount;
-      } else {
-        acc.push({
-          category: transaction.category,
-          amount: transaction.amount,
-        });
-      }
+        if (existingCategory) {
+          existingCategory.amount += transaction.amount;
+        } else {
+          acc.push({
+            category: transaction.category,
+            amount: transaction.amount,
+          });
+        }
 
-      return acc;
-    }, []);
+        return acc;
+      }, []);
 
-  const balance = [{}];
+    const balance = [{}];
 
-  console.log(incomes);
+    console.log(incomes);
+  }
   return (
     <>
       <BreadCrumbs title="Dashboard" />
@@ -85,8 +91,20 @@ const page = () => {
       </section>
       <section className="flex gap-[20px]">
         <BalanceChart chartData={[]} />
-        <CircleChart chartData={incomes} time="2023-2024" title="Expenses" />
-        <CircleChart chartData={expenses} time="2023-2024" title="Incomes" />
+        {userData && (
+          <>
+            <CircleChart
+              chartData={incomes}
+              time="2023-2024"
+              title="Expenses"
+            />
+            <CircleChart
+              chartData={expenses}
+              time="2023-2024"
+              title="Incomes"
+            />
+          </>
+        )}
       </section>
     </>
   );
