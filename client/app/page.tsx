@@ -13,9 +13,9 @@ const page = () => {
   let transactions;
   let incomes;
   let expenses;
-  console.log(userData);
   if (userData) {
     transactions = userData.transactions;
+    console.log(transactions);
     incomes = transactions
       .filter((transaction: any) => transaction.incomes === true)
       .map((transaction: any) => {
@@ -71,8 +71,6 @@ const page = () => {
       }, []);
 
     const balance = [{}];
-
-    console.log(incomes);
   }
   return (
     <>

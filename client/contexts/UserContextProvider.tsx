@@ -35,12 +35,14 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/users"); // API route to fetch users
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_URL}/api/users`
+        );
         if (!response.ok) throw new Error("Failed to fetch user");
 
         const data = await response.json();
-        if (data && data.length > 0) {
-          setUserData(data[0]); // Set the first user as userData
+        if (data) {
+          setUserData(data);
         }
       } catch (error) {
         console.error("Error fetching user:", error);
