@@ -15,60 +15,9 @@ const page = () => {
   let expenses;
   if (userData) {
     transactions = userData.transactions;
-    console.log(transactions);
-    incomes = transactions
-      .filter((transaction: any) => transaction.incomes === true)
-      .map((transaction: any) => {
-        const categoryObj = categoriesIncomes.find(
-          (cat) => cat.id === transaction.category
-        );
-        const categoryTitle = categoryObj ? categoryObj.title : "Unknown";
+    incomes = transactions.incomes;
 
-        return { category: categoryTitle, amount: transaction.amount };
-      })
-      .reduce((acc: any, transaction: any) => {
-        const existingCategory = acc.find(
-          (item: any) => item.category === transaction.category
-        );
-
-        if (existingCategory) {
-          existingCategory.amount += transaction.amount;
-        } else {
-          acc.push({
-            category: transaction.category,
-            amount: transaction.amount,
-          });
-        }
-
-        return acc;
-      }, []);
-
-    expenses = transactions
-      .filter((transaction: any) => transaction.incomes === false)
-      .map((transaction: any) => {
-        const categoryObj = categoriesExpenses.find(
-          (cat) => cat.id === transaction.category
-        );
-        const categoryTitle = categoryObj ? categoryObj.title : "Unknown";
-
-        return { category: categoryTitle, amount: transaction.amount };
-      })
-      .reduce((acc: any, transaction: any) => {
-        const existingCategory = acc.find(
-          (item: any) => item.category === transaction.category
-        );
-
-        if (existingCategory) {
-          existingCategory.amount += transaction.amount;
-        } else {
-          acc.push({
-            category: transaction.category,
-            amount: transaction.amount,
-          });
-        }
-
-        return acc;
-      }, []);
+    expenses = transactions.expenses;
 
     const balance = [{}];
   }
@@ -91,15 +40,11 @@ const page = () => {
         <BalanceChart chartData={[]} />
         {userData && (
           <>
-            <CircleChart
-              chartData={incomes}
-              time="2023-2024"
-              title="Expenses"
-            />
+            <CircleChart chartData={incomes} time="2023-2024" title="Incomes" />
             <CircleChart
               chartData={expenses}
               time="2023-2024"
-              title="Incomes"
+              title="Expenses"
             />
           </>
         )}

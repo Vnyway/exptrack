@@ -9,6 +9,10 @@ export async function GET(req: NextRequest) {
 
     const user = await db.collection("Users").findOne({});
 
+    if (!user) {
+      return NextResponse.json({ message: "No users found" }, { status: 404 });
+    }
+
     const categoriesIncomesDocument = await db
       .collection("Categories")
       .findOne({ title: "Incomes" });
@@ -18,10 +22,7 @@ export async function GET(req: NextRequest) {
 
     const categoriesIncomes = categoriesIncomesDocument?.categories;
     const categoriesExpenses = categoriesExpensesDocument?.categories;
-
-    if (!user) {
-      return NextResponse.json({ message: "No users found" }, { status: 404 });
-    }
+    console.log(categoriesExpenses);
 
     user.transactions.incomes = user.transactions.incomes.map(
       (transaction: any) => {
@@ -30,13 +31,11 @@ export async function GET(req: NextRequest) {
         }
 
         const category = categoriesIncomes.find(
-          (category: any) => category.id === transaction.categoryId
+          (category: any) => category.id === transaction.category
         );
 
         transaction.category = category ? category.title : "Unknown Category";
         transaction.image = category ? category.image : "No Image Found";
-
-        delete transaction.categoryId;
 
         const account = user.accounts.find(
           (account: any) =>
@@ -51,6 +50,8 @@ export async function GET(req: NextRequest) {
       }
     );
 
+    console.log(user.transactions.incomes);
+
     user.transactions.expenses = user.transactions.expenses.map(
       (transaction: any) => {
         if (transaction.amount && transaction.amount instanceof Decimal128) {
@@ -58,13 +59,11 @@ export async function GET(req: NextRequest) {
         }
 
         const category = categoriesExpenses.find(
-          (category: any) => category.id === transaction.categoryId
+          (category: any) => category.id === transaction.category
         );
 
         transaction.category = category ? category.title : "Unknown Category";
         transaction.image = category ? category.image : "No Image Found";
-
-        delete transaction.categoryId;
 
         const account = user.accounts.find(
           (account: any) =>
