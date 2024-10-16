@@ -9,36 +9,75 @@ export async function GET(req: NextRequest) {
 
     const user = await db.collection("Users").findOne({});
 
-    const categories = await db.collection("Categories").find({}).toArray();
+    const categoriesIncomesDocument = await db
+      .collection("Categories")
+      .findOne({ title: "Incomes" });
+    const categoriesExpensesDocument = await db
+      .collection("Categories")
+      .findOne({ title: "Expenses" });
+
+    const categoriesIncomes = categoriesIncomesDocument?.categories;
+    const categoriesExpenses = categoriesExpensesDocument?.categories;
 
     if (!user) {
       return NextResponse.json({ message: "No users found" }, { status: 404 });
     }
 
-    user.transactions = user.transactions.map((transaction: any) => {
-      if (transaction.amount && transaction.amount instanceof Decimal128) {
-        transaction.amount = Number(transaction.amount.toString());
+    user.transactions.incomes = user.transactions.incomes.map(
+      (transaction: any) => {
+        if (transaction.amount && transaction.amount instanceof Decimal128) {
+          transaction.amount = Number(transaction.amount.toString());
+        }
+
+        const category = categoriesIncomes.find(
+          (category: any) => category.id === transaction.categoryId
+        );
+
+        transaction.category = category ? category.title : "Unknown Category";
+        transaction.image = category ? category.image : "No Image Found";
+
+        delete transaction.categoryId;
+
+        const account = user.accounts.find(
+          (account: any) =>
+            account.id.toString() === transaction.accountId.toString()
+        );
+
+        transaction.account = account ? account.title : "Unknown Account";
+
+        delete transaction.accountId;
+
+        return transaction;
       }
+    );
 
-      const category = categories.find(
-        (category: any) => category.id === transaction.categoryId
-      );
+    user.transactions.expenses = user.transactions.expenses.map(
+      (transaction: any) => {
+        if (transaction.amount && transaction.amount instanceof Decimal128) {
+          transaction.amount = Number(transaction.amount.toString());
+        }
 
-      transaction.category = category ? category.title : "Unknown Category";
+        const category = categoriesExpenses.find(
+          (category: any) => category.id === transaction.categoryId
+        );
 
-      delete transaction.categoryId;
+        transaction.category = category ? category.title : "Unknown Category";
+        transaction.image = category ? category.image : "No Image Found";
 
-      const account = user.accounts.find(
-        (account: any) =>
-          account.id.toString() === transaction.accountId.toString()
-      );
+        delete transaction.categoryId;
 
-      transaction.account = account ? account.title : "Unknown Account";
+        const account = user.accounts.find(
+          (account: any) =>
+            account.id.toString() === transaction.accountId.toString()
+        );
 
-      delete transaction.accountId;
+        transaction.account = account ? account.title : "Unknown Account";
 
-      return transaction;
-    });
+        delete transaction.accountId;
+
+        return transaction;
+      }
+    );
 
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
