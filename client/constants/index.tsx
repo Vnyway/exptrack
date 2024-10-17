@@ -215,9 +215,9 @@ const profileLinks = [
 const cards = [
   {
     id: 1,
-    title: "Today's money",
-    amount: 53000,
-    percentage: 55,
+    title: "Current Balance",
+    amount: 0,
+    percentage: 0,
     image: (
       <svg
         width="23"
@@ -243,9 +243,9 @@ const cards = [
   },
   {
     id: 2,
-    title: "Today’s expenses",
-    amount: 173000,
-    percentage: 8,
+    title: "Month's expenses",
+    amount: 0,
+    percentage: 0,
     image: (
       <svg
         width="23"
@@ -271,9 +271,9 @@ const cards = [
   },
   {
     id: 3,
-    title: "Today’s incomes",
-    amount: -120000,
-    percentage: 25,
+    title: "Month's incomes",
+    amount: 0,
+    percentage: 0,
     image: (
       <svg
         width="20"

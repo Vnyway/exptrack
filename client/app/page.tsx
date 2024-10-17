@@ -16,10 +16,42 @@ const page = () => {
   const expenses = transactions?.expenses;
   const balanceHistory = userData?.balance;
   let currentBalance;
+  let prevMonthBalance;
+  let thisMonthIncome;
+  let prevMonthIncome;
+  let thisMonthExpense;
+  let prevMonthExpense;
   if (userData) {
     currentBalance = balanceHistory[balanceHistory.length - 1].balance;
+    prevMonthBalance = balanceHistory[balanceHistory.length - 2].balance;
     cards[0].amount = currentBalance;
-    cards[0].percentage;
+    cards[0].percentage = Math.round(
+      ((currentBalance - prevMonthBalance) / prevMonthBalance) * 100
+    );
+    thisMonthExpense = balanceHistory[balanceHistory.length - 1].expense;
+    prevMonthExpense = balanceHistory[balanceHistory.length - 2].expense;
+    cards[1].amount = thisMonthExpense;
+    if (prevMonthExpense === 0 && thisMonthExpense === 0) {
+      cards[1].percentage = 0;
+    } else if (prevMonthExpense === 0) {
+      cards[1].percentage = 100;
+    } else {
+      cards[1].percentage = Math.round(
+        ((thisMonthExpense - prevMonthExpense) / prevMonthExpense) * 100
+      );
+    }
+    thisMonthIncome = balanceHistory[balanceHistory.length - 1].income;
+    prevMonthIncome = balanceHistory[balanceHistory.length - 2].income;
+    cards[2].amount = thisMonthIncome;
+    if (prevMonthIncome === 0 && thisMonthIncome === 0) {
+      cards[2].percentage = 0;
+    } else if (prevMonthIncome === 0) {
+      cards[2].percentage = 100;
+    } else {
+      cards[2].percentage = Math.round(
+        ((thisMonthIncome - prevMonthIncome) / prevMonthIncome) * 100
+      );
+    }
   }
 
   return (

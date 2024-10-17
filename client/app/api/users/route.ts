@@ -11,6 +11,8 @@ interface MonthlyBalance {
 interface ChartData {
   date: string;
   balance: number;
+  income: number;
+  expense: number;
 }
 
 export async function GET(req: NextRequest) {
@@ -138,7 +140,6 @@ export async function GET(req: NextRequest) {
 
       // Iterate from first transaction month to current month
       let currentDate = new Date(firstTransactionMonth);
-      let previousMonth = "";
 
       while (formatDateToMonth(currentDate.toISOString()) <= currentMonth) {
         const month = formatDateToMonth(currentDate.toISOString());
@@ -186,13 +187,14 @@ export async function GET(req: NextRequest) {
     const monthlyBalance = calculateMonthlyBalance(user.transactions);
     const chartdata: ChartData[] = [];
 
+    // Function to format "YYYY-MM" into "Mon YY"
     const formatMonthYear = (month: string): string => {
       const [year, monthNum] = month.split("-");
       const date = new Date(Number(year), Number(monthNum) - 1);
       return date.toLocaleString("en-US", { month: "short", year: "2-digit" });
     };
 
-    // Convert balanceByMonth into chartdata format
+    // Convert balanceByMonth into chartdata format with incomes and expenses
     const convertToChartData = (
       balanceByMonth: Record<string, MonthlyBalance>
     ) => {
@@ -200,6 +202,8 @@ export async function GET(req: NextRequest) {
         chartdata.push({
           date: formatMonthYear(month), // Convert to "Mon YY" format (e.g., "Jan 23")
           balance: balanceByMonth[month].balance, // Store the balance for the month
+          income: balanceByMonth[month].income, // Store the incomes for the month
+          expense: balanceByMonth[month].expense, // Store the expenses for the month
         });
       }
 
@@ -209,6 +213,8 @@ export async function GET(req: NextRequest) {
     // Assuming balanceByMonth is populated after previous steps
     const chartDataArray = convertToChartData(balanceByMonth);
     console.log(chartDataArray);
+
+    // Update user with balance data
     user.balance = chartDataArray;
 
     return NextResponse.json(user, { status: 200 });
