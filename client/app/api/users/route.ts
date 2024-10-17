@@ -100,6 +100,19 @@ export async function GET(req: NextRequest) {
       )}`;
     };
 
+    // Helper function to get the current month formatted as "YYYY-MM"
+    const getCurrentMonth = (): string => {
+      const now = new Date();
+      return formatDateToMonth(now.toISOString());
+    };
+
+    // Helper function to add months to a date
+    const addMonths = (date: Date, months: number): Date => {
+      const newDate = new Date(date);
+      newDate.setMonth(newDate.getMonth() + months);
+      return newDate;
+    };
+
     // Initialize starting balance
     let runningBalance = 0; // Set to whatever the initial balance is (e.g., 0, or a predefined value)
 
@@ -119,26 +132,39 @@ export async function GET(req: NextRequest) {
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
       );
 
-      // Group transactions by month
-      allTransactions.forEach((transaction) => {
-        const month = formatDateToMonth(transaction.date);
-        const amount = transaction.amount;
+      // Get the first transaction month and current month
+      const firstTransactionMonth = formatDateToMonth(allTransactions[0].date);
+      const currentMonth = getCurrentMonth();
+
+      // Iterate from first transaction month to current month
+      let currentDate = new Date(firstTransactionMonth);
+      let previousMonth = "";
+
+      while (formatDateToMonth(currentDate.toISOString()) <= currentMonth) {
+        const month = formatDateToMonth(currentDate.toISOString());
 
         // If this month is not yet in balanceByMonth, initialize it
         if (!balanceByMonth[month]) {
           balanceByMonth[month] = {
             income: 0,
             expense: 0,
-            balance: runningBalance,
+            balance: runningBalance, // Carry over the running balance from the previous month
           };
         }
 
-        // Add income or expense for the month
-        if (transaction.type === "income") {
-          balanceByMonth[month].income += amount;
-        } else {
-          balanceByMonth[month].expense += amount;
-        }
+        // Process all transactions for the current month
+        allTransactions.forEach((transaction) => {
+          const transactionMonth = formatDateToMonth(transaction.date);
+          const amount = transaction.amount;
+
+          if (transactionMonth === month) {
+            if (transaction.type === "income") {
+              balanceByMonth[month].income += amount;
+            } else {
+              balanceByMonth[month].expense += amount;
+            }
+          }
+        });
 
         // Calculate the monthly difference (incomes - expenses)
         const monthlyDifference =
@@ -149,7 +175,10 @@ export async function GET(req: NextRequest) {
 
         // Set the balance for the month
         balanceByMonth[month].balance = runningBalance;
-      });
+
+        // Move to the next month
+        currentDate = addMonths(currentDate, 1);
+      }
 
       return balanceByMonth;
     };
