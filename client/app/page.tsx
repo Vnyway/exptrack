@@ -2,7 +2,7 @@
 
 import Card from "@/components/Card";
 import { useContext } from "react";
-import { cards, categoriesIncomes, categoriesExpenses } from "@/constants";
+import { cards } from "@/constants";
 import BreadCrumbs from "@/components/BreadCrumbs";
 import { BalanceChart } from "@/components/BalanceChart";
 import CircleChart from "@/components/CircleChart";
@@ -10,17 +10,18 @@ import { UserContext } from "@/contexts/UserContextProvider";
 
 const page = () => {
   const { userData } = useContext<any>(UserContext);
-  let transactions;
-  let incomes;
-  let expenses;
+
+  const transactions = userData?.transactions;
+  const incomes = transactions?.incomes;
+  const expenses = transactions?.expenses;
+  const balanceHistory = userData?.balance;
+  let currentBalance;
   if (userData) {
-    transactions = userData.transactions;
-    incomes = transactions.incomes;
-
-    expenses = transactions.expenses;
-
-    const balance = [{}];
+    currentBalance = balanceHistory[balanceHistory.length - 1].balance;
+    cards[0].amount = currentBalance;
+    cards[0].percentage;
   }
+
   return (
     <>
       <BreadCrumbs title="Dashboard" />
@@ -36,17 +37,17 @@ const page = () => {
           />
         ))}
       </section>
-      <section className="flex gap-[20px]">
-        <BalanceChart chartData={[]} />
+      <section className="flex gap-[20px] flex-col lg:flex-row">
+        <BalanceChart chartData={balanceHistory} />
         {userData && (
-          <>
+          <div className="w-full flex-col md:flex-row flex gap-[20px] lg:max-w-[40%]">
             <CircleChart chartData={incomes} time="2023-2024" title="Incomes" />
             <CircleChart
               chartData={expenses}
               time="2023-2024"
               title="Expenses"
             />
-          </>
+          </div>
         )}
       </section>
     </>
