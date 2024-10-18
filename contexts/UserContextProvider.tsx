@@ -1,22 +1,39 @@
 "use client";
 
+import { ObjectId } from "mongodb";
 import { createContext, useState, ReactNode, useEffect } from "react";
 
 interface UserProps {
-  id: number;
+  _id: ObjectId;
   name: string;
   accounts: { id: number; title: string }[];
   transactions: {
     id: number;
-    accountId: number;
+    account: number;
     incomes: boolean;
     category: number;
     amount: number;
     date: Date;
   }[];
+  balance: {
+    date: string;
+    balance: number;
+    income: number;
+    expense: number;
+  }[];
+  allTransactions: {
+    id: number;
+    category: string;
+    amount: number;
+    date: string;
+    source: string;
+    image: string;
+    account: string;
+    type: string;
+  }[];
 }
 
-interface UserContextType {
+export interface UserContextType {
   userData: UserProps | null;
   setUserData: React.Dispatch<React.SetStateAction<UserProps | null>>;
 }

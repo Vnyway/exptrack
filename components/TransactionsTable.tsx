@@ -1,18 +1,19 @@
+import { UserContext, UserContextType } from "@/contexts/UserContextProvider";
 import { greenCheckmark } from "@/public";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
+import SourceInput from "./TableInputs/SourceInput";
+import CategoriesInput from "./TableInputs/CategoriesInput";
 const headings = ["SOURCE", "CATEGORY", "AMOUNT", "ACCOUNT", "DATE"];
 
-const TransactionsTable = (transactions: any) => {
-  const [currentTransactions, setCurrentTransactions] = useState<any>(
-    transactions.transactions
-  );
+const TransactionsTable = () => {
+  const userContext = useContext<UserContextType | undefined>(UserContext);
+  if (!userContext) return null;
+  const { userData, setUserData } = userContext;
+  if (!userData) return null;
 
-  const inputRef = useRef<HTMLInputElement>(null);
-  const handleDivClick = () => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  };
+  const [currentTransactions, setCurrentTransactions] = useState<any>(
+    userData.allTransactions
+  );
   return (
     <div className="rounded-[15px] shadow-md p-[20px] flex flex-col gap-[20px]">
       <div className="flex flex-col gap-[4px]">
@@ -24,7 +25,7 @@ const TransactionsTable = (transactions: any) => {
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-5">
+      <div className="grid grid-cols-5 gap-1">
         {headings.map((heading, index) => (
           <div key={index} className="font-bold text-secondary text-[12px]">
             {heading}
@@ -32,23 +33,8 @@ const TransactionsTable = (transactions: any) => {
         ))}
         {currentTransactions.map((transaction: any) => (
           <React.Fragment key={transaction.id}>
-            <div
-              onClick={handleDivClick}
-              className="text-title font-bold text-[14px]">
-              <input
-                ref={inputRef}
-                className="w-full border-0 outline-none focus:ring-0 pl-0"
-                value={transaction.source}
-                type="text"
-              />
-            </div>
-            <div className="text-title font-bold text-[14px]">
-              <input
-                className="w-full border-0 outline-none focus:ring-0 pl-0"
-                value={transaction.category}
-                type="text"
-              />
-            </div>
+            <SourceInput transaction={transaction} />
+            <CategoriesInput transaction={transaction} />
             <div
               className={`${
                 transaction.type === "income"
@@ -56,7 +42,7 @@ const TransactionsTable = (transactions: any) => {
                   : "text-customRed"
               } flex font-bold text-[14px] items-center`}>
               <span className={` pb-[1px]`}>
-                {transaction.type === "income" ? "-" : "+"}$
+                {transaction.type === "income" ? "+" : "-"}$
               </span>
               <input
                 className="w-full border-0 outline-none focus:ring-0 pl-0"

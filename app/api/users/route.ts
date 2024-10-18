@@ -270,6 +270,8 @@ export async function GET(req: NextRequest) {
         new Date(a.date).getTime() - new Date(b.date).getTime()
     );
 
+    console.log(user);
+
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
     return NextResponse.json(
