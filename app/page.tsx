@@ -84,7 +84,9 @@ const page = () => {
         )}
       </section>
       <section className="w-full">
-        <TransactionsTable />
+        {userData && (
+          <TransactionsTable transactions={userData.allTransactions} />
+        )}
       </section>
     </>
   );

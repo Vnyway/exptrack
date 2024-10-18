@@ -212,10 +212,25 @@ export async function GET(req: NextRequest) {
 
     // Assuming balanceByMonth is populated after previous steps
     const chartDataArray = convertToChartData(balanceByMonth);
-    console.log(chartDataArray);
 
     // Update user with balance data
     user.balance = chartDataArray;
+
+    //all transactions array
+
+    user.allTransactions = [
+      ...user.transactions.incomes.map((t: any) => ({ ...t, type: "income" })),
+      ...user.transactions.expenses.map((t: any) => ({
+        ...t,
+        type: "expense",
+      })),
+    ];
+
+    user.allTransactions.sort(
+      (a: any, b: any) =>
+        new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+    console.log(user.allTransactions);
 
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
