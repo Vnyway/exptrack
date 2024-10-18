@@ -15,6 +15,36 @@ interface ChartData {
   expense: number;
 }
 
+interface BaseTransaction {
+  id: number;
+  accountId: number;
+  category: number;
+  amount: Decimal128 | number;
+  date: string;
+  source: string;
+}
+
+interface TransformedTransaction {
+  id: number;
+  category: string;
+  amount: number;
+  date: string;
+  source: string;
+  image: string;
+  account: string;
+}
+
+interface TypedTransaction {
+  id: number;
+  category: string;
+  amount: number;
+  date: string;
+  source: string;
+  image: string;
+  account: string;
+  type: string;
+}
+
 export async function GET(req: NextRequest) {
   try {
     const client = await clientPromise;
@@ -36,56 +66,56 @@ export async function GET(req: NextRequest) {
     const categoriesIncomes = categoriesIncomesDocument?.categories;
     const categoriesExpenses = categoriesExpensesDocument?.categories;
 
-    user.transactions.incomes = user.transactions.incomes.map(
-      (transaction: any) => {
-        if (transaction.amount && transaction.amount instanceof Decimal128) {
-          transaction.amount = Number(transaction.amount.toString());
+    //function for changing transactions
+
+    const transformTransactions = (
+      transactions: BaseTransaction[],
+      categories: { id: number; title: string; image: string }[],
+      accounts: { id: string; title: string }[]
+    ): TransformedTransaction[] => {
+      return transactions.map(
+        (transaction: BaseTransaction): TransformedTransaction => {
+          // Convert amount if it's a Decimal128
+          if (transaction.amount && transaction.amount instanceof Decimal128) {
+            transaction.amount = Number(transaction.amount.toString());
+          }
+
+          // Find the matching category
+          const category = categories.find(
+            (category) => category.id === transaction.category
+          );
+
+          // Find the matching account
+          const account = accounts.find(
+            (account) =>
+              account.id.toString() === transaction.accountId.toString()
+          );
+
+          // Return the new transformed transaction object
+          return {
+            id: transaction.id,
+            category: category ? category.title : "Unknown Category",
+            amount:
+              typeof transaction.amount === "number" ? transaction.amount : 0,
+            date: transaction.date,
+            source: transaction.source,
+            image: category ? category.image : "No Image Found",
+            account: account ? account.title : "Unknown Account",
+          };
         }
+      );
+    };
 
-        const category = categoriesIncomes.find(
-          (category: any) => category.id === transaction.category
-        );
-
-        transaction.category = category ? category.title : "Unknown Category";
-        transaction.image = category ? category.image : "No Image Found";
-
-        const account = user.accounts.find(
-          (account: any) =>
-            account.id.toString() === transaction.accountId.toString()
-        );
-
-        transaction.account = account ? account.title : "Unknown Account";
-
-        delete transaction.accountId;
-
-        return transaction;
-      }
+    user.transactions.expenses = transformTransactions(
+      user.transactions.expenses,
+      categoriesExpenses,
+      user.accounts
     );
 
-    user.transactions.expenses = user.transactions.expenses.map(
-      (transaction: any) => {
-        if (transaction.amount && transaction.amount instanceof Decimal128) {
-          transaction.amount = Number(transaction.amount.toString());
-        }
-
-        const category = categoriesExpenses.find(
-          (category: any) => category.id === transaction.category
-        );
-
-        transaction.category = category ? category.title : "Unknown Category";
-        transaction.image = category ? category.image : "No Image Found";
-
-        const account = user.accounts.find(
-          (account: any) =>
-            account.id.toString() === transaction.accountId.toString()
-        );
-
-        transaction.account = account ? account.title : "Unknown Account";
-
-        delete transaction.accountId;
-
-        return transaction;
-      }
+    user.transactions.incomes = transformTransactions(
+      user.transactions.incomes,
+      categoriesIncomes,
+      user.accounts
     );
 
     //calculating balance, incomes, expenses for each month
@@ -120,13 +150,19 @@ export async function GET(req: NextRequest) {
 
     // Group transactions by month and calculate the running balance
     const calculateMonthlyBalance = (transactions: {
-      incomes: any[];
-      expenses: any[];
+      incomes: TransformedTransaction[];
+      expenses: TransformedTransaction[];
     }) => {
       // Combine both incomes and expenses
       const allTransactions = [
-        ...transactions.incomes.map((t) => ({ ...t, type: "income" })),
-        ...transactions.expenses.map((t) => ({ ...t, type: "expense" })),
+        ...transactions.incomes.map((t: TransformedTransaction) => ({
+          ...t,
+          type: "income",
+        })),
+        ...transactions.expenses.map((t: TransformedTransaction) => ({
+          ...t,
+          type: "expense",
+        })),
       ];
 
       // Sort transactions by date to ensure we process them in chronological order
@@ -154,7 +190,7 @@ export async function GET(req: NextRequest) {
         }
 
         // Process all transactions for the current month
-        allTransactions.forEach((transaction) => {
+        allTransactions.forEach((transaction: TypedTransaction) => {
           const transactionMonth = formatDateToMonth(transaction.date);
           const amount = transaction.amount;
 
@@ -219,18 +255,20 @@ export async function GET(req: NextRequest) {
     //all transactions array
 
     user.allTransactions = [
-      ...user.transactions.incomes.map((t: any) => ({ ...t, type: "income" })),
-      ...user.transactions.expenses.map((t: any) => ({
+      ...user.transactions.incomes.map((t: TransformedTransaction) => ({
+        ...t,
+        type: "income",
+      })),
+      ...user.transactions.expenses.map((t: TransformedTransaction) => ({
         ...t,
         type: "expense",
       })),
     ];
 
     user.allTransactions.sort(
-      (a: any, b: any) =>
+      (a: TransformedTransaction, b: TransformedTransaction) =>
         new Date(a.date).getTime() - new Date(b.date).getTime()
     );
-    console.log(user.allTransactions);
 
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
