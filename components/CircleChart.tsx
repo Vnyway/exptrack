@@ -13,7 +13,7 @@ const CircleChart = ({ chartData, title, time }: CircleChartProps) => {
         <span className="text-primary font-normal text-[14px]">in {time}</span>
       </div>
       <DonutChart
-        className="mx-auto w-full h-full"
+        className="mx-auto min-h-[200px] h-full w-full"
         data={chartData}
         category="category"
         value="amount"

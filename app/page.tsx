@@ -7,6 +7,7 @@ import BreadCrumbs from "@/components/BreadCrumbs";
 import { BalanceChart } from "@/components/BalanceChart";
 import CircleChart from "@/components/CircleChart";
 import { UserContext } from "@/contexts/UserContextProvider";
+import { TransactionsTable } from "@/components";
 
 const page = () => {
   const { userData } = useContext<any>(UserContext);
@@ -81,6 +82,9 @@ const page = () => {
             />
           </div>
         )}
+      </section>
+      <section className="w-full">
+        <TransactionsTable />
       </section>
     </>
   );

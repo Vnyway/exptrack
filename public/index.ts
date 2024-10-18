@@ -30,6 +30,10 @@ import royaltiesOrLicesingIncome from "./categories/royalties.svg";
 import windfalls from "./categories/windfalls.svg";
 import crowdfundingOrDonations from "./categories/crowdfunding.svg";
 
+//general
+
+import greenCheckmark from "./general/green-check.png";
+
 export {
   housing,
   transportation,
@@ -57,4 +61,5 @@ export {
   royaltiesOrLicesingIncome,
   windfalls,
   crowdfundingOrDonations,
+  greenCheckmark,
 };
