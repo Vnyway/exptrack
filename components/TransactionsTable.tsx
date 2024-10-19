@@ -3,16 +3,20 @@ import { greenCheckmark } from "@/public";
 import React, { useContext, useRef, useState } from "react";
 import SourceInput from "./TableInputs/SourceInput";
 import CategoriesInput from "./TableInputs/CategoriesInput";
+import AmountInput from "./TableInputs/AmountInput";
+import { TypedTransaction } from "@/app/api/users/route";
+import DateInput from "./TableInputs/DateInput";
+import AccountInput from "./TableInputs/AccountInput";
 const headings = ["SOURCE", "CATEGORY", "AMOUNT", "ACCOUNT", "DATE"];
 
 const TransactionsTable = () => {
   const userContext = useContext<UserContextType | undefined>(UserContext);
   if (!userContext) return null;
-  const { userData, setUserData } = userContext;
-  if (!userData) return null;
+  const { userData, setUserData, categoriesIncomes, categoriesExpenses } =
+    userContext;
 
   const [currentTransactions, setCurrentTransactions] = useState<any>(
-    userData.allTransactions
+    userData?.allTransactions
   );
   return (
     <div className="rounded-[15px] shadow-md p-[20px] flex flex-col gap-[20px]">
@@ -34,36 +38,17 @@ const TransactionsTable = () => {
         {currentTransactions.map((transaction: any) => (
           <React.Fragment key={transaction.id}>
             <SourceInput transaction={transaction} />
-            <CategoriesInput transaction={transaction} categories={} />
-            <div
-              className={`${
-                transaction.type === "income"
-                  ? "text-customGreen"
-                  : "text-customRed"
-              } flex font-bold text-[14px] items-center`}>
-              <span className={` pb-[1px]`}>
-                {transaction.type === "income" ? "+" : "-"}$
-              </span>
-              <input
-                className="w-full border-0 outline-none focus:ring-0 pl-0"
-                value={transaction.amount}
-                type="text"
-              />
-            </div>
-            <div className="text-title font-bold text-[14px]">
+            <CategoriesInput transaction={transaction} />
+            <AmountInput transaction={transaction} />
+            <AccountInput transaction={transaction} />
+            {/* <div className="text-title font-bold text-[14px]">
               <input
                 className="w-full border-0 outline-none focus:ring-0 pl-0"
                 value={transaction.account}
                 type="text"
               />
-            </div>
-            <div className="text-title font-bold text-[14px]">
-              <input
-                className="w-full border-0 outline-none focus:ring-0 pl-0"
-                value={transaction.date}
-                type="text"
-              />
-            </div>
+            </div> */}
+            <DateInput transaction={transaction} />
           </React.Fragment>
         ))}
       </div>

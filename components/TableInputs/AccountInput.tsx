@@ -1,14 +1,15 @@
 import { UserContext } from "@/contexts/UserContextProvider";
 import React, { useContext, useRef, useState } from "react";
 
-const CategoriesInput = (transaction: any) => {
+const AccountInput = (transaction: any) => {
   const context = useContext(UserContext);
 
   if (!context) {
     return null;
   }
 
-  const { categoriesIncomes } = context;
+  const { userData } = context;
+  const accounts = userData?.accounts;
   const inputRef = useRef<HTMLInputElement>(null);
   const [selected, setSelected] = useState<boolean>(false);
 
@@ -30,13 +31,13 @@ const CategoriesInput = (transaction: any) => {
       <input
         ref={inputRef}
         className="w-full border-0 outline-none focus:ring-0 pl-0"
-        value={transaction.transaction.category}
+        value={transaction.transaction.account}
         type="text"
         onFocus={handleFocus}
         onBlur={handleBlur}
       />
       <div className={`${selected ? "block" : "hidden"} absolute`}>
-        {categoriesIncomes?.map((category: any) => (
+        {accounts?.map((category: any) => (
           <div className="w-full bg-white">{category.title}</div>
         ))}
       </div>
@@ -44,4 +45,4 @@ const CategoriesInput = (transaction: any) => {
   );
 };
 
-export default CategoriesInput;
+export default AccountInput;

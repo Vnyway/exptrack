@@ -34,7 +34,7 @@ interface TransformedTransaction {
   account: string;
 }
 
-interface TypedTransaction {
+export interface TypedTransaction {
   id: number;
   category: string;
   amount: number;
