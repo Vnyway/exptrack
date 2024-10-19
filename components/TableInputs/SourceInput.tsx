@@ -40,7 +40,7 @@ const SourceInput = (transaction: any) => {
           background: "linear-gradient(to right, #2d3748 50%, #ffffff 50%)",
           backgroundSize: "200% 100%",
           backgroundPosition: "right bottom",
-          transition: "all 1s ease-out",
+          transition: "all 0.3s ease-out",
         }}></motion.span>
     </div>
   );

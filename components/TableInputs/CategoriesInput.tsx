@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-const CategoriesInput = (transaction: any) => {
+const CategoriesInput = (transaction: any, categories: any) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [selected, setSelected] = useState<boolean>(false);
 

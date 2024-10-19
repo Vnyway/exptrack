@@ -34,7 +34,7 @@ const TransactionsTable = () => {
         {currentTransactions.map((transaction: any) => (
           <React.Fragment key={transaction.id}>
             <SourceInput transaction={transaction} />
-            <CategoriesInput transaction={transaction} />
+            <CategoriesInput transaction={transaction} categories={} />
             <div
               className={`${
                 transaction.type === "income"

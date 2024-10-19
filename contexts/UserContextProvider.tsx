@@ -33,9 +33,23 @@ interface UserProps {
   }[];
 }
 
+interface CategoryProps {
+  id: number;
+  title: string;
+  image: string;
+}
+
 export interface UserContextType {
   userData: UserProps | null;
   setUserData: React.Dispatch<React.SetStateAction<UserProps | null>>;
+  categoriesIncomes: CategoryProps[] | null;
+  setCategoriesIncomes: React.Dispatch<
+    React.SetStateAction<CategoryProps[] | null>
+  >;
+  categoriesExpenses: CategoryProps[] | null;
+  setCategoriesExpenses: React.Dispatch<
+    React.SetStateAction<CategoryProps[] | null>
+  >;
 }
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -48,6 +62,12 @@ interface UserContextProviderProps {
 
 export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [userData, setUserData] = useState<UserProps | null>(null);
+  const [categoriesIncomes, setCategoriesIncomes] = useState<
+    CategoryProps[] | null
+  >(null);
+  const [categoriesExpenses, setCategoriesExpenses] = useState<
+    CategoryProps[] | null
+  >(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -66,11 +86,54 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
       }
     };
 
+    const fetchCategoriesIncomes = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_URL}/api/categories/incomes`
+        );
+        if (!response.ok) throw new Error("Failed to fetch incomes categories");
+
+        const data = await response.json();
+        if (data) {
+          setCategoriesIncomes(data);
+        }
+      } catch (error) {
+        console.error("Error fetching incomes categories:", error);
+      }
+    };
+
+    const fetchCategoriesExpenses = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_URL}/api/categories/expenses`
+        );
+        if (!response.ok)
+          throw new Error("Failed to fetch expenses categories");
+
+        const data = await response.json();
+        if (data) {
+          setCategoriesExpenses(data);
+        }
+      } catch (error) {
+        console.error("Error fetching expenses categories:", error);
+      }
+    };
+
     fetchUser();
+    fetchCategoriesExpenses();
+    fetchCategoriesIncomes();
   }, []);
 
   return (
-    <UserContext.Provider value={{ userData, setUserData }}>
+    <UserContext.Provider
+      value={{
+        userData,
+        setUserData,
+        categoriesIncomes,
+        setCategoriesIncomes,
+        categoriesExpenses,
+        setCategoriesExpenses,
+      }}>
       {children}
     </UserContext.Provider>
   );
